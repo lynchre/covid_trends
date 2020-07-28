@@ -12,3 +12,9 @@
     font-family: Arial, Helvetica, sans-serif;
     float: right;
 }
+
+.slider {
+    text-align: center;
+    position: relative;
+    top: 600px;
+}
