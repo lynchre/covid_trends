@@ -7,16 +7,10 @@
 
     <div class="heading">
         <h>Covid-19 and Google Searches</h>
-        <p>Tracking spikes in Google searches for <b>"covid symptoms</b> and spikes in Covid-19 cases by state.</p>
+        <p>Tracking spikes in Google searches for <b>"covid symptoms"</b> and spikes in Covid-19 cases by state.</p>
     </div>
 
-    <div class="google_map">
-        <h>Google Searches</h>
-    </div>
-
-    <div class="covid_map">
-        <h>Covid Cases</h>
-    </div>
+    <div id='container' class='maps'>Maps!</div>
 
     <div class='slider'>
         <input id='timeslide' type='range' min='0' max='168' value='0' step='1'/>
@@ -199,20 +193,30 @@
         ]
 
             // initialize SVG components, variables
-            var width = 500,
-                height = 600,
-                svg = d3.select('body')
+            var container = document.getElementById('container');
+            var container_style = window.getComputedStyle(container);
+            var width = 1000;
+            var height = 500;
+                // need SVG canvas to have two maps within it, and a slider bar
+            var svg = d3.select('.maps')
                     .append("svg")
-                    .attr("width", width)
-                    .attr("height", height),
-                projection = d3.geo.albersUsa()
-                    .scale(685)
-                    .translate([width / 2, height / 2]),
+                    .attr('preserveAspectRatio', 'xMinYMin meet')
+                    .attr('viewBox', '0 0 ' + width + ' ' + height);
+            var projection_google = d3.geo.albersUsa()
+                    .scale(650)
+                    .translate([width / 4, height / 2]);
                 // geoPath is library simply turns lat/lon into screen coordinates
-                path = d3.geo.path()
-                    .projection(projection),
-                g = svg.append("g");
-
+            var path_g = d3.geo.path()
+                    .projection(projection_google);
+            var projection_covid = d3.geo.albersUsa()
+                    .scale(650)
+                    .translate([3 * width / 4, height / 2]);
+                // geoPath is library simply turns lat/lon into screen coordinates
+            var path_c = d3.geo.path()
+                    .projection(projection_covid);
+            var g = svg.append("g");
+            console.log(container_style.width);
+            console.log(height);
             // initialize d3 components
             var colors = d3.scale.linear()
                 .domain([0, 100])
@@ -224,13 +228,20 @@
                 d3.json('data/us-states.json', function (json) {
                     console.log(data);
                     console.log(json)
-                    g.selectAll("path")
+                    g.selectAll("path_g")
                         .data(json.features)
                         .enter()
                         .append("path")
                         .attr("fill", "#ccc")
                         .attr("stroke", "#333")
-                        .attr("d", path);
+                        .attr("d", path_g);
+                    g.selectAll("path_c")
+                        .data(json.features)
+                        .enter()
+                        .append("path")
+                        .attr("fill", "#ccc")
+                        .attr("stroke", "#333")
+                        .attr("d", path_c);
                 })
             });
     
