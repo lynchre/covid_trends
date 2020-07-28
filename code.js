@@ -183,8 +183,10 @@ function init() {
         projection = d3.geo.albersUsa()
                     .scale(1280)
                     .translate([width/2, height/2]),
+        // geoPath is library simply turns lat/lon into screen coordinates
         path = d3.geo.path()
-                .projection(projection);
+                .projection(projection),
+        g = svg.append("g");
 
     // initialize d3 components
     var colors = d3.scale.linear()
@@ -195,7 +197,15 @@ function init() {
     d3.csv('data/google-covid.csv', function(data) {
         // us geo json source: https://eric.clst.org/tech/usgeojson/
         d3.json('data/us-states.json', function(json) {
-
+            console.log(data);
+            console.log(json)
+            g.selectAll("path")
+                .data(json.features)
+                .enter()
+                .append("path")
+                .attr("fill", "#ccc")
+                .attr("stroke", "#333")
+                .attr("d", path);
         })
     });
     
