@@ -13,10 +13,13 @@
     </div>
 
     <div id='container' class='maps'>
+        
         <button id="play-button">Play</button>
+        <div id='label'>Press play to begin, or drag the time slider.</div>
     </div>
     <script>
-        var getMonth = d3.timeFormat("%B")
+        var getMonth = d3.timeFormat("%B");
+        var getMonthAndYear = d3.timeFormat("%B %d %Y");
         var startDate = new Date("2020-02-01");
         var endDate = new Date("2020-07-19");
         var margin = { top: 50, right: 50, bottom: 0, left: 50 },
@@ -78,6 +81,7 @@
         function moveHandle(h) {
             console.log(h);
             handle.attr("cx", datesScale(h));
+            document.getElementById('label').innerHTML = getMonthAndYear(h);
         }
 
 
@@ -85,47 +89,47 @@
 
         // // Map
 
-        // var projection_google = d3.geo.albersUsa()
-        //             .scale(650)
-        //             .translate([width / 4, height / 2]);
-        //         // geoPath is library simply turns lat/lon into screen coordinates
-        // var path_g = d3.geo.path()
-        //             .projection(projection_google);
-        // var projection_covid = d3.geo.albersUsa()
-        //         .scale(650)
-        //         .translate([3 * width / 4, height / 2]);
-        // // geoPath is library simply turns lat/lon into screen coordinates
-        // var path_c = d3.geo.path()
-        //             .projection(projection_covid);
-        // var g = svg.append("g");
+        var projection_google = d3.geoAlbersUsa()
+                    .scale(500)
+                    .translate([width / 4, 3 * height / 4]);
+                // geoPath is library simply turns lat/lon into screen coordinates
+        var path_g = d3.geoPath()
+                    .projection(projection_google);
+        var projection_covid = d3.geoAlbersUsa()
+                .scale(500)
+                .translate([3 * width / 4, 3 * height / 4]);
+        // geoPath is library simply turns lat/lon into screen coordinates
+        var path_c = d3.geoPath()
+                    .projection(projection_covid);
+        var g = svg.append("g");
 
         // // initialize d3 components
         // var colors = d3.scale.linear()
         //         .domain([0, 100])
         //         .range(['#A4D263', '#E8DB3A', '#E89C3A', '#E83D3A']);
 
-        //     // load data... async 
-        //     d3.csv('data/google-covid.csv', function (data) {
-        //         // us geo json source: https://eric.clst.org/tech/usgeojson/
-        //         d3.json('data/us-states.json', function (json) {
-        //             console.log(data);
-        //             console.log(json)
-        //             g.selectAll("path_g")
-        //                 .data(json.features)
-        //                 .enter()
-        //                 .append("path")
-        //                 .attr("fill", "#ccc")
-        //                 .attr("stroke", "#333")
-        //                 .attr("d", path_g);
-        //             g.selectAll("path_c")
-        //                 .data(json.features)
-        //                 .enter()
-        //                 .append("path")
-        //                 .attr("fill", "#ccc")
-        //                 .attr("stroke", "#333")
-        //                 .attr("d", path_c);
-        //         })
-        //     });
+            // load data... async 
+            d3.csv('data/google-covid.csv', function (data) {
+                // us geo json source: https://eric.clst.org/tech/usgeojson/
+                d3.json('data/us-states.json', function (json) {
+                    console.log(data);
+                    console.log(json)
+                    g.selectAll("path_g")
+                        .data(json.features)
+                        .enter()
+                        .append("path")
+                        .attr("fill", "#ccc")
+                        .attr("stroke", "#333")
+                        .attr("d", path_g);
+                    g.selectAll("path_c")
+                        .data(json.features)
+                        .enter()
+                        .append("path")
+                        .attr("fill", "#ccc")
+                        .attr("stroke", "#333")
+                        .attr("d", path_c);
+                })
+            });
 
     </script>
 
