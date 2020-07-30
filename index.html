@@ -172,8 +172,17 @@
                     console.log(dataPoint);
                     return colors(dataPoint);
                 });
-                
-
+            g.selectAll(".state_c")
+                .attr("fill", function(d) {
+                    var dlist = d3.entries(d);
+                    try {
+                        var dataPoint = (Object.values(dlist[2]["value"]["covidData"]))[diffDays];
+                    } catch(err) {
+                        // meh
+                    }
+                    console.log(dataPoint);
+                    return colors(dataPoint);
+                });
         }
 
 
