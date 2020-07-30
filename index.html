@@ -104,9 +104,9 @@
         var g = svg.append("g");
 
         // // initialize d3 components
-        // var colors = d3.scale.linear()
-        //         .domain([0, 100])
-        //         .range(['#A4D263', '#E8DB3A', '#E89C3A', '#E83D3A']);
+        var colors = d3.scaleLinear()
+                .domain([0, 100])
+                .range(['#A4D263', '#E8DB3A', '#E89C3A', '#E83D3A']);
 
             // load data... async 
             d3.csv('data/google-covid.csv', function (data) {
@@ -118,14 +118,14 @@
                         .data(json.features)
                         .enter()
                         .append("path")
-                        .attr("fill", "#ccc")
+                        .attr("fill", "#99ECA7")
                         .attr("stroke", "#333")
                         .attr("d", path_g);
                     g.selectAll("path_c")
                         .data(json.features)
                         .enter()
                         .append("path")
-                        .attr("fill", "#ccc")
+                        .attr("fill", "#99ECA7")
                         .attr("stroke", "#333")
                         .attr("d", path_c);
                 })
