@@ -13,7 +13,7 @@
     </div>
 
     <div id='container' class='maps'>
-        
+
         <button id="play-button">Play</button>
         <div id='label'>Press play to begin, or drag the time slider.</div>
     </div>
@@ -41,47 +41,50 @@
 
         var slider = svg.append("g")
             .attr("class", "slider")
-            .attr("transform", "translate(" + margin.left + "," + height/5 + ")");
+            .attr("transform", "translate(" + margin.left + "," + height / 5 + ")");
 
         slider.append("line")
             .attr("class", "track")
             .attr("x1", datesScale.range()[0])
             .attr("x2", datesScale.range()[1])
-            .select(function() { 
+            .select(function () {
                 console.log("in append 1");
-                return this.parentNode.appendChild(this.cloneNode(true)); })
+                return this.parentNode.appendChild(this.cloneNode(true));
+            })
             .attr("class", "track_inner")
-            .select(function() { 
+            .select(function () {
                 console.log("in append 2");
-                return this.parentNode.appendChild(this.cloneNode(true)); })
+                return this.parentNode.appendChild(this.cloneNode(true));
+            })
             .attr("class", "track_outer")
             .call(d3.drag()
-                .on("drag", function() { 
+                .on("drag", function () {
                     console.log("In drag");
                     new_val = d3.event.x;
                     moveHandle(datesScale.invert(new_val));
                 }));
 
         slider.insert("g", ".track_outer")
-                .attr("class", "slider_marks")
-                .attr("transform", "translate(0," + 18 + ")")
-                .selectAll("text")
-                .data(datesScale.ticks(10))
-                .enter()
-                .append("text")
-                .attr("x", datesScale)
-                .attr("y", 10)
-                .attr("text-anchor", "middle")
-                .text(function(d) { return getMonth(d);});
+            .attr("class", "slider_marks")
+            .attr("transform", "translate(0," + 18 + ")")
+            .selectAll("text")
+            .data(datesScale.ticks(10))
+            .enter()
+            .append("text")
+            .attr("x", datesScale)
+            .attr("y", 10)
+            .attr("text-anchor", "middle")
+            .text(function (d) { return getMonth(d); });
 
         var handle = slider.insert("circle", ".track_outer")
-                 .attr("class", "handle")
-                 .attr("r", 9);
+            .attr("class", "handle")
+            .attr("r", 9);
 
-        function moveHandle(h) {
-            console.log(h);
-            handle.attr("cx", datesScale(h));
-            document.getElementById('label').innerHTML = getMonthAndYear(h);
+        function moveHandle(date) {
+            console.log(date);
+            handle.attr("cx", datesScale(date));
+            updateMap(date);
+            document.getElementById('label').innerHTML = getMonthAndYear(date);
         }
 
 
@@ -90,46 +93,67 @@
         // // Map
 
         var projection_google = d3.geoAlbersUsa()
-                    .scale(500)
-                    .translate([width / 4, 3 * height / 4]);
-                // geoPath is library simply turns lat/lon into screen coordinates
+            .scale(500)
+            .translate([width / 4, 3 * height / 4]);
+        // geoPath is library simply turns lat/lon into screen coordinates
         var path_g = d3.geoPath()
-                    .projection(projection_google);
+            .projection(projection_google);
         var projection_covid = d3.geoAlbersUsa()
-                .scale(500)
-                .translate([3 * width / 4, 3 * height / 4]);
+            .scale(500)
+            .translate([3 * width / 4, 3 * height / 4]);
         // geoPath is library simply turns lat/lon into screen coordinates
         var path_c = d3.geoPath()
-                    .projection(projection_covid);
+            .projection(projection_covid);
         var g = svg.append("g");
 
         // // initialize d3 components
         var colors = d3.scaleLinear()
-                .domain([0, 100])
-                .range(['#A4D263', '#E8DB3A', '#E89C3A', '#E83D3A']);
+            .domain([0, 100])
+            .range(['#A4D263', '#E8DB3A', '#E89C3A', '#E83D3A']);
 
-            // load data... async 
-            d3.csv('data/google-covid.csv', function (data) {
-                // us geo json source: https://eric.clst.org/tech/usgeojson/
-                d3.json('data/us-states.json', function (json) {
-                    console.log(data);
-                    console.log(json)
-                    g.selectAll("path_g")
-                        .data(json.features)
-                        .enter()
-                        .append("path")
-                        .attr("fill", "#99ECA7")
-                        .attr("stroke", "#333")
-                        .attr("d", path_g);
-                    g.selectAll("path_c")
-                        .data(json.features)
-                        .enter()
-                        .append("path")
-                        .attr("fill", "#99ECA7")
-                        .attr("stroke", "#333")
-                        .attr("d", path_c);
-                })
-            });
+        // initial load data...
+        var dataGoogle;
+        d3.csv('data/google-covid.csv', function (data) {
+            dataGoogle = data;
+            console.log(dataGoogle);
+        });
+
+        // us geo json source: https://eric.clst.org/tech/usgeojson/
+        d3.json('data/us-states.json', function (json) {
+            g.selectAll("path_g")
+                .data(json.features)
+                .enter()
+                .append("path")
+                .attr("class", "state")
+                .attr("name", function(d) { return d.properties.NAME; })
+                .attr("fill", "#99ECA7")
+                .attr("stroke", "#333")
+                .attr("d", path_g);
+            g.selectAll("path_c")
+                .data(json.features)
+                .enter()
+                .append("path")
+                .attr("class", "state")
+                .attr("name", function(d) { return d.properties.NAME; })
+                .attr("fill", "#99ECA7")
+                .attr("stroke", "#333")
+                .attr("d", path_c);
+        });
+
+        // update map on slider movement
+        function updateMap(date) {
+            // re-draw map components with color
+            // corresponding to data for that state
+            g.selectAll("path_g")
+                .attr("fill", function(d) {
+                    if (d.date == date) {
+                        return colors(d.percent_of_max);
+                    }
+                });
+                
+
+        }
+
 
     </script>
 
