@@ -18,15 +18,29 @@
         <div id='label'>Press play to begin, or drag the time slider.</div>
     </div>
     <script>
+        var currentDate = 0;
+        const startDate = new Date("2020-02-01");
+        var endDate = new Date("2020-07-19");
+
+        // function to get Date from start date 
+        Date.prototype.addDays = function(days) {
+            date.setDate(startDate + days);
+            return date;
+        }
+
+        // functions to pretty print dates
         var getMonth = d3.timeFormat("%B");
         var getMonthAndYear = d3.timeFormat("%B %d %Y");
-        var startDate = new Date("2020-02-01");
-        var endDate = new Date("2020-07-19");
+        
+        // initialize SVG parameters
         var margin = { top: 50, right: 50, bottom: 0, left: 50 },
             width = 1000 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom,
             targetValue = width;
 
+        var x = d3.scaleLinear()
+            .domain([0, 169])
+            .range()
         var datesScale = d3.scaleTime()
             .domain([startDate, endDate])
             .range([0, targetValue])
@@ -36,8 +50,6 @@
             .append("svg")
             .attr('preserveAspectRatio', 'xMinYMin meet')
             .attr('viewBox', '0 0 ' + width + ' ' + height);
-
-        var date = new Date("2020-02-01");
 
         var slider = svg.append("g")
             .attr("class", "slider")
@@ -109,7 +121,7 @@
         // // initialize d3 components
         var colors = d3.scaleLinear()
             .domain([0, 100])
-            .range(['#A4D263', '#E8DB3A', '#E89C3A', '#E83D3A']);
+            .range(['#99ECA7', '#E83D3A']);
 
         // initial load data...
         var dataGoogle;
@@ -119,36 +131,46 @@
         });
 
         // us geo json source: https://eric.clst.org/tech/usgeojson/
-        d3.json('data/us-states.json', function (json) {
+        d3.json('data/data.json', function (json) {
             g.selectAll("path_g")
                 .data(json.features)
                 .enter()
                 .append("path")
-                .attr("class", "state")
+                .attr("class", "state_g")
                 .attr("name", function(d) { return d.properties.NAME; })
-                .attr("fill", "#99ECA7")
+                .attr("fill", colors(0))
                 .attr("stroke", "#333")
                 .attr("d", path_g);
             g.selectAll("path_c")
                 .data(json.features)
                 .enter()
                 .append("path")
-                .attr("class", "state")
+                .attr("class", "state_c")
                 .attr("name", function(d) { return d.properties.NAME; })
-                .attr("fill", "#99ECA7")
+                .attr("fill", colors(0))
                 .attr("stroke", "#333")
                 .attr("d", path_c);
         });
 
         // update map on slider movement
         function updateMap(date) {
+            // get new date diff between start date and this date
+            var diffTime = Math.abs(date - startDate);
+            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            console.log('Diff days: ' + diffDays);
+
             // re-draw map components with color
             // corresponding to data for that state
-            g.selectAll("path_g")
+            g.selectAll(".state_g")
                 .attr("fill", function(d) {
-                    if (d.date == date) {
-                        return colors(d.percent_of_max);
+                    var dlist = d3.entries(d);
+                    try {
+                        var dataPoint = (Object.values(dlist[2]["value"]["googleData"]))[diffDays];
+                    } catch(err) {
+                        // meh
                     }
+                    console.log(dataPoint);
+                    return colors(dataPoint);
                 });
                 
 
