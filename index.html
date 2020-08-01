@@ -96,11 +96,18 @@
             .attr("transform", "translate(80,0)")
             .attr("r", 9);
 
+        var dateLabel = slider.append('text')
+                .attr('class', 'dateLabel')
+                .attr('text-anchor', 'middle')
+                .text(getMonthAndYear(startDate))
+                .attr('transform', 'translate(80,' + (-25) + ')')
+
         function moveHandle(date) {
             console.log(date);
             handle.attr("cx", datesScale(date) - 80);
+            dateLabel.attr('x', datesScale(date) - 80);
+            dateLabel.text(getMonthAndYear(date));
             updateMap(date);
-            document.getElementById('label').innerHTML = getMonthAndYear(date);
         }
 
 
@@ -121,7 +128,12 @@
         var path_c = d3.geoPath()
             .projection(projection_covid);
         var g = svg.append("g");
-
+        svg.append('text')
+            .attr("transform", "translate(" + 165 + "," + 210 + ")")
+            .text('Google Trends');
+        svg.append('text')
+            .attr("transform", "translate(" + 590 + "," + 210 + ")")
+            .text('New Daily Covid Cases');
         // // initialize d3 components
         var colors = d3.scaleLinear()
             .domain([0, 50/3, 100/3, 150/3, 200/3, 250/3, 100])
