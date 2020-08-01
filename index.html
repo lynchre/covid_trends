@@ -123,12 +123,9 @@
         var g = svg.append("g");
 
         // // initialize d3 components
-        var colorsGoogle = d3.scaleLinear()
-            .domain([0, 100])
-            .range(['#99ECA7', '#BD0202']);
-        var colorsCovid =  d3.scaleLinear()
-            .domain([0, 100])
-            .range(['#99ECA7', '#BD0202']);
+        var colors = d3.scaleLinear()
+            .domain([0, 50/3, 100/3, 150/3, 200/3, 250/3, 100])
+            .range(['black', 'blue', 'cyan', 'green', 'yellow', 'red']);
 
         // us geo json source: https://eric.clst.org/tech/usgeojson/
         d3.json('data/data.json', function (json) {
@@ -138,7 +135,7 @@
                 .append("path")
                 .attr("class", "state_g")
                 .attr("name", function(d) { return d.properties.NAME; })
-                .attr("fill", colorsGoogle(0))
+                .attr("fill", colors(0))
                 .attr("stroke", "#333")
                 .attr("d", path_g);
             g.selectAll("path_c")
@@ -147,7 +144,7 @@
                 .append("path")
                 .attr("class", "state_c")
                 .attr("name", function(d) { return d.properties.NAME; })
-                .attr("fill", colorsCovid(0))
+                .attr("fill", colors(0))
                 .attr("stroke", "#333")
                 .attr("d", path_c);
             console.log(json);
@@ -170,7 +167,7 @@
                     } catch(err) {
                         // meh
                     }
-                    return colorsGoogle(dataPoint);
+                    return colors(dataPoint);
                 });
             g.selectAll(".state_c")
                 .attr("fill", function(d) {
@@ -180,7 +177,7 @@
                     } catch(err) {
                         // meh
                     }
-                    return colorsCovid(dataPoint);
+                    return colors(dataPoint);
                 });
         }
 
