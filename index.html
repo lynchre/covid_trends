@@ -136,7 +136,7 @@
             .text('New Daily Covid Cases');
 
         // tooltip for mouseover details
-        var tooltip = svg.append('g')
+        var hover = d3.select('.maps').append('div')
             .attr('class', 'tooltip')
             .style('opacity', 0);
         // // initialize d3 components
@@ -186,15 +186,15 @@
                     } catch(err) {
                         // meh
                     }
-                    tooltip.transition()		
+                    hover.transition()		
                         .duration(200)		
                         .style("opacity", .9);		
-                    tooltip.html(d.properties.NAME + "<br/>"  + dataPoint)	
-                        .style("left", (d3.event.x) + "px")		
-                        .style("top", (d3.event.x - 28) + "px");
+                    hover.html(d.properties.NAME + "<br/>"  + dataPoint)	
+                        .style("left", (d3.event.pageX) + "px")		
+                        .style("top", (d3.event.pageY - 28) + "px");
                 })
                 .on("mouseout", function() {
-                    tooltip.transition()
+                    hover.transition()
                         .duration(200)
                         .style("opacity", 0);
                 });
@@ -206,15 +206,15 @@
                     } catch(err) {
                         // meh
                     }
-                    tooltip.transition()		
+                    hover.transition()		
                         .duration(200)		
                         .style("opacity", .9);		
-                    tooltip.html(d.properties.NAME + "<br/>"  + dataPoint)	
+                    hover.html(d.properties.NAME + "<br/>"  + dataPoint)	
                         .style("left", (d3.event.x) + "px")		
                         .style("top", (d3.event.x - 28) + "px");
                 })
                 .on("mouseout", function() {
-                    tooltip.transition()
+                    hover.transition()
                         .duration(200)
                         .style("opacity", 0);
                 });
