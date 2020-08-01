@@ -208,7 +208,7 @@
                 .on("mouseover", function(d) {
                     var dlist = d3.entries(d);
                     try {
-                        var dataPoint = (Object.values(dlist[1]["value"]["googleData"]))[diffDays];
+                        var dataPoint = Math.round((Object.values(dlist[1]["value"]["googleData"]))[diffDays]);
                     } catch(err) {
                         // meh
                     }
@@ -228,7 +228,7 @@
                 .on("mouseover", function(d) {
                     var dlist = d3.entries(d);
                     try {
-                        var dataPoint = (Object.values(dlist[1]["value"]["covidData"]))[diffDays];
+                        var dataPoint = Math.round((Object.values(dlist[1]["value"]["covidData"]))[diffDays]);
                     } catch(err) {
                         // meh
                     }
@@ -252,7 +252,7 @@
                 .attr("fill", function(d) {
                     var dlist = d3.entries(d);
                     try {
-                        var dataPoint = (Object.values(dlist[1]["value"]["googleData"]))[diffDays];
+                        var dataPoint = Math.round((Object.values(dlist[1]["value"]["googleData"]))[diffDays]);
                     } catch(err) {
                         // meh
                     }
@@ -264,7 +264,7 @@
                 .attr("fill", function(d) {
                     var dlist = d3.entries(d);
                     try {
-                        var dataPoint = (Object.values(dlist[1]["value"]["covidData"]))[diffDays];
+                        var dataPoint = Math.round((Object.values(dlist[1]["value"]["covidData"]))[diffDays]);
                     } catch(err) {
                         // meh
                     }
