@@ -154,7 +154,20 @@
                 .attr("name", function(d) { return d.properties.NAME; })
                 .attr("fill", colors(0))
                 .attr("stroke", "#333")
-                .attr("d", path_g);
+                .attr("d", path_g)
+                .on("mouseover", function(d) {
+                    hover.transition()		
+                        .duration(200)		
+                        .style("opacity", .9);		
+                    hover.html(d.properties.NAME + "<br/>"  + 0)	
+                        .style("left", (d3.event.pageX) + "px")		
+                        .style("top", (d3.event.pageY - 40) + "px");
+                })
+                .on("mouseout", function() {
+                    hover.transition()
+                        .duration(200)
+                        .style("opacity", 0);
+                });
             g.selectAll("path_c")
                 .data(json.features)
                 .enter()
@@ -163,7 +176,20 @@
                 .attr("name", function(d) { return d.properties.NAME; })
                 .attr("fill", colors(0))
                 .attr("stroke", "#333")
-                .attr("d", path_c);
+                .attr("d", path_c)
+                .on("mouseover", function(d) {
+                    hover.transition()		
+                        .duration(200)		
+                        .style("opacity", .9);		
+                    hover.html(d.properties.NAME + "<br/>"  + 0)	
+                        .style("left", (d3.event.pageX) + "px")		
+                        .style("top", (d3.event.pageY - 40) + "px");
+                })
+                .on("mouseout", function() {
+                    hover.transition()
+                        .duration(200)
+                        .style("opacity", 0);
+                });
             console.log(json);
         });
 
@@ -191,7 +217,7 @@
                         .style("opacity", .9);		
                     hover.html(d.properties.NAME + "<br/>"  + dataPoint)	
                         .style("left", (d3.event.pageX) + "px")		
-                        .style("top", (d3.event.pageY - 28) + "px");
+                        .style("top", (d3.event.pageY - 40) + "px");
                 })
                 .on("mouseout", function() {
                     hover.transition()
@@ -210,8 +236,8 @@
                         .duration(200)		
                         .style("opacity", .9);		
                     hover.html(d.properties.NAME + "<br/>"  + dataPoint)	
-                        .style("left", (d3.event.x) + "px")		
-                        .style("top", (d3.event.x - 28) + "px");
+                        .style("left", (d3.event.pageX) + "px")		
+                        .style("top", (d3.event.pageY - 40) + "px");
                 })
                 .on("mouseout", function() {
                     hover.transition()
