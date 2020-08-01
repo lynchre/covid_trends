@@ -134,6 +134,11 @@
         svg.append('text')
             .attr("transform", "translate(" + 590 + "," + 210 + ")")
             .text('New Daily Covid Cases');
+
+        // tooltip for mouseover details
+        var tooltip = svg.append('g')
+            .attr('class', 'tooltip')
+            .style('opacity', 0);
         // // initialize d3 components
         var colors = d3.scaleLinear()
             .domain([0, 50/3, 100/3, 150/3, 200/3, 250/3, 100])
@@ -171,7 +176,53 @@
 
             // re-draw map components with color
             // corresponding to data for that state
+
+            // update mouseovers
             g.selectAll(".state_g")
+                .on("mouseover", function(d) {
+                    var dlist = d3.entries(d);
+                    try {
+                        var dataPoint = (Object.values(dlist[1]["value"]["googleData"]))[diffDays];
+                    } catch(err) {
+                        // meh
+                    }
+                    tooltip.transition()		
+                        .duration(200)		
+                        .style("opacity", .9);		
+                    tooltip.html(d.properties.NAME + "<br/>"  + dataPoint)	
+                        .style("left", (d3.event.x) + "px")		
+                        .style("top", (d3.event.x - 28) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 0);
+                });
+            g.selectAll(".state_c")
+                .on("mouseover", function(d) {
+                    var dlist = d3.entries(d);
+                    try {
+                        var dataPoint = (Object.values(dlist[1]["value"]["covidData"]))[diffDays];
+                    } catch(err) {
+                        // meh
+                    }
+                    tooltip.transition()		
+                        .duration(200)		
+                        .style("opacity", .9);		
+                    tooltip.html(d.properties.NAME + "<br/>"  + dataPoint)	
+                        .style("left", (d3.event.x) + "px")		
+                        .style("top", (d3.event.x - 28) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 0);
+                });
+
+            // update map colors
+            g.selectAll(".state_g")
+                .transition()
+                .duration(200)
                 .attr("fill", function(d) {
                     var dlist = d3.entries(d);
                     try {
@@ -182,6 +233,8 @@
                     return colors(dataPoint);
                 });
             g.selectAll(".state_c")
+                .transition()
+                .duration(200)
                 .attr("fill", function(d) {
                     var dlist = d3.entries(d);
                     try {
