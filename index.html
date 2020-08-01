@@ -16,6 +16,7 @@
 
         <button id="play-button">Play</button>
         <div id='label'>Press play to begin, or drag the time slider.</div>
+        <div id="slider"></div>
     </div>
     <script>
         var currentDate = 0;
@@ -39,36 +40,38 @@
             targetValue = width;
 
         var x = d3.scaleLinear()
-            .domain([0, 169])
+            .domain([0, 135])
             .range()
         var datesScale = d3.scaleTime()
             .domain([startDate, endDate])
-            .range([0, targetValue])
+            .range([80, targetValue * 0.9])
             .clamp(true);
 
         var svg = d3.select('.maps')
             .append("svg")
-            .attr('preserveAspectRatio', 'xMinYMin meet')
+            .attr('preserveAspectRatio', 'none')
             .attr('viewBox', '0 0 ' + width + ' ' + height);
 
         var slider = svg.append("g")
             .attr("class", "slider")
-            .attr("transform", "translate(" + margin.left + "," + height / 5 + ")");
+            .attr("transform", "translate(0," + height / 5 + ")");
 
         slider.append("line")
             .attr("class", "track")
-            .attr("x1", datesScale.range()[0])
-            .attr("x2", datesScale.range()[1])
+            .attr("x1", "10%")
+            .attr("x2", "90%")
             .select(function () {
-                console.log("in append 1");
                 return this.parentNode.appendChild(this.cloneNode(true));
             })
             .attr("class", "track_inner")
+            .attr("x1", "10%")
+            .attr("x2", "90%")
             .select(function () {
-                console.log("in append 2");
                 return this.parentNode.appendChild(this.cloneNode(true));
             })
             .attr("class", "track_outer")
+            .attr("x1", "10%")
+            .attr("x2", "90%")
             .call(d3.drag()
                 .on("drag", function () {
                     console.log("In drag");
@@ -90,11 +93,12 @@
 
         var handle = slider.insert("circle", ".track_outer")
             .attr("class", "handle")
+            .attr("transform", "translate(80,0)")
             .attr("r", 9);
 
         function moveHandle(date) {
             console.log(date);
-            handle.attr("cx", datesScale(date));
+            handle.attr("cx", datesScale(date) - 80);
             updateMap(date);
             document.getElementById('label').innerHTML = getMonthAndYear(date);
         }
@@ -119,16 +123,12 @@
         var g = svg.append("g");
 
         // // initialize d3 components
-        var colors = d3.scaleLinear()
+        var colorsGoogle = d3.scaleLinear()
             .domain([0, 100])
-            .range(['#99ECA7', '#E83D3A']);
-
-        // initial load data...
-        var dataGoogle;
-        d3.csv('data/google-covid.csv', function (data) {
-            dataGoogle = data;
-            console.log(dataGoogle);
-        });
+            .range(['#99ECA7', '#BD0202']);
+        var colorsCovid =  d3.scaleLinear()
+            .domain([0, 100])
+            .range(['#99ECA7', '#BD0202']);
 
         // us geo json source: https://eric.clst.org/tech/usgeojson/
         d3.json('data/data.json', function (json) {
@@ -138,7 +138,7 @@
                 .append("path")
                 .attr("class", "state_g")
                 .attr("name", function(d) { return d.properties.NAME; })
-                .attr("fill", colors(0))
+                .attr("fill", colorsGoogle(0))
                 .attr("stroke", "#333")
                 .attr("d", path_g);
             g.selectAll("path_c")
@@ -147,9 +147,10 @@
                 .append("path")
                 .attr("class", "state_c")
                 .attr("name", function(d) { return d.properties.NAME; })
-                .attr("fill", colors(0))
+                .attr("fill", colorsCovid(0))
                 .attr("stroke", "#333")
                 .attr("d", path_c);
+            console.log(json);
         });
 
         // update map on slider movement
@@ -165,23 +166,21 @@
                 .attr("fill", function(d) {
                     var dlist = d3.entries(d);
                     try {
-                        var dataPoint = (Object.values(dlist[2]["value"]["googleData"]))[diffDays];
+                        var dataPoint = (Object.values(dlist[1]["value"]["googleData"]))[diffDays];
                     } catch(err) {
                         // meh
                     }
-                    console.log(dataPoint);
-                    return colors(dataPoint);
+                    return colorsGoogle(dataPoint);
                 });
             g.selectAll(".state_c")
                 .attr("fill", function(d) {
                     var dlist = d3.entries(d);
                     try {
-                        var dataPoint = (Object.values(dlist[2]["value"]["covidData"]))[diffDays];
+                        var dataPoint = (Object.values(dlist[1]["value"]["covidData"]))[diffDays];
                     } catch(err) {
                         // meh
                     }
-                    console.log(dataPoint);
-                    return colors(dataPoint);
+                    return colorsCovid(dataPoint);
                 });
         }
 
