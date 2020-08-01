@@ -24,7 +24,7 @@
         var endDate = new Date("2020-07-19");
 
         // function to get Date from start date 
-        Date.prototype.addDays = function(days) {
+        Date.prototype.addDays = function (days) {
             date.setDate(startDate + days);
             return date;
         }
@@ -32,7 +32,7 @@
         // functions to pretty print dates
         var getMonth = d3.timeFormat("%B");
         var getMonthAndYear = d3.timeFormat("%B %d %Y");
-        
+
         // initialize SVG parameters
         var margin = { top: 50, right: 50, bottom: 0, left: 50 },
             width = 1000 - margin.left - margin.right,
@@ -50,7 +50,7 @@
         var svg = d3.select('.maps')
             .append("svg")
             .attr('preserveAspectRatio', 'none')
-            .attr('viewBox', '0 0 ' + width + ' ' + height);
+            .attr('viewBox', '0 0 ' + width + ' ' + 600);
 
         var slider = svg.append("g")
             .attr("class", "slider")
@@ -97,10 +97,10 @@
             .attr("r", 9);
 
         var dateLabel = slider.append('text')
-                .attr('class', 'dateLabel')
-                .attr('text-anchor', 'middle')
-                .text(getMonthAndYear(startDate))
-                .attr('transform', 'translate(80,' + (-25) + ')')
+            .attr('class', 'dateLabel')
+            .attr('text-anchor', 'middle')
+            .text(getMonthAndYear(startDate))
+            .attr('transform', 'translate(80,' + (-25) + ')')
 
         function moveHandle(date) {
             console.log(date);
@@ -141,8 +141,8 @@
             .style('opacity', 0);
         // // initialize d3 components
         var colors = d3.scaleLinear()
-            .domain([0, 50/3, 100/3, 150/3, 200/3, 250/3, 100])
-            .range(['black', 'blue', 'cyan', 'green', 'yellow', 'red']);
+            .domain([0, 50 / 3, 100 / 3, 150 / 3, 200 / 3, 250 / 3, 100])
+            .range(['black', 'blue', 'cyan', 'green', 'yellow', 'orange', 'red']);
 
         // us geo json source: https://eric.clst.org/tech/usgeojson/
         d3.json('data/data.json', function (json) {
@@ -151,19 +151,19 @@
                 .enter()
                 .append("path")
                 .attr("class", "state_g")
-                .attr("name", function(d) { return d.properties.NAME; })
+                .attr("name", function (d) { return d.properties.NAME; })
                 .attr("fill", colors(0))
                 .attr("stroke", "#333")
                 .attr("d", path_g)
-                .on("mouseover", function(d) {
-                    hover.transition()		
-                        .duration(200)		
-                        .style("opacity", .9);		
-                    hover.html(d.properties.NAME + "<br/>"  + 0)	
-                        .style("left", (d3.event.pageX) + "px")		
+                .on("mouseover", function (d) {
+                    hover.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    hover.html(d.properties.NAME + "<br/>" + 0)
+                        .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 40) + "px");
                 })
-                .on("mouseout", function() {
+                .on("mouseout", function () {
                     hover.transition()
                         .duration(200)
                         .style("opacity", 0);
@@ -173,19 +173,19 @@
                 .enter()
                 .append("path")
                 .attr("class", "state_c")
-                .attr("name", function(d) { return d.properties.NAME; })
+                .attr("name", function (d) { return d.properties.NAME; })
                 .attr("fill", colors(0))
                 .attr("stroke", "#333")
                 .attr("d", path_c)
-                .on("mouseover", function(d) {
-                    hover.transition()		
-                        .duration(200)		
-                        .style("opacity", .9);		
-                    hover.html(d.properties.NAME + "<br/>"  + 0)	
-                        .style("left", (d3.event.pageX) + "px")		
+                .on("mouseover", function (d) {
+                    hover.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    hover.html(d.properties.NAME + "<br/>" + 0)
+                        .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 40) + "px");
                 })
-                .on("mouseout", function() {
+                .on("mouseout", function () {
                     hover.transition()
                         .duration(200)
                         .style("opacity", 0);
@@ -205,41 +205,41 @@
 
             // update mouseovers
             g.selectAll(".state_g")
-                .on("mouseover", function(d) {
+                .on("mouseover", function (d) {
                     var dlist = d3.entries(d);
                     try {
                         var dataPoint = Math.round((Object.values(dlist[1]["value"]["googleData"]))[diffDays]);
-                    } catch(err) {
+                    } catch (err) {
                         // meh
                     }
-                    hover.transition()		
-                        .duration(200)		
-                        .style("opacity", .9);		
-                    hover.html(d.properties.NAME + "<br/>"  + dataPoint)	
-                        .style("left", (d3.event.pageX) + "px")		
+                    hover.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    hover.html(d.properties.NAME + "<br/>" + dataPoint)
+                        .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 40) + "px");
                 })
-                .on("mouseout", function() {
+                .on("mouseout", function () {
                     hover.transition()
                         .duration(200)
                         .style("opacity", 0);
                 });
             g.selectAll(".state_c")
-                .on("mouseover", function(d) {
+                .on("mouseover", function (d) {
                     var dlist = d3.entries(d);
                     try {
                         var dataPoint = Math.round((Object.values(dlist[1]["value"]["covidData"]))[diffDays]);
-                    } catch(err) {
+                    } catch (err) {
                         // meh
                     }
-                    hover.transition()		
-                        .duration(200)		
-                        .style("opacity", .9);		
-                    hover.html(d.properties.NAME + "<br/>"  + dataPoint)	
-                        .style("left", (d3.event.pageX) + "px")		
+                    hover.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    hover.html(d.properties.NAME + "<br/>" + dataPoint)
+                        .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 40) + "px");
                 })
-                .on("mouseout", function() {
+                .on("mouseout", function () {
                     hover.transition()
                         .duration(200)
                         .style("opacity", 0);
@@ -249,11 +249,11 @@
             g.selectAll(".state_g")
                 .transition()
                 .duration(200)
-                .attr("fill", function(d) {
+                .attr("fill", function (d) {
                     var dlist = d3.entries(d);
                     try {
                         var dataPoint = Math.round((Object.values(dlist[1]["value"]["googleData"]))[diffDays]);
-                    } catch(err) {
+                    } catch (err) {
                         // meh
                     }
                     return colors(dataPoint);
@@ -261,16 +261,87 @@
             g.selectAll(".state_c")
                 .transition()
                 .duration(200)
-                .attr("fill", function(d) {
+                .attr("fill", function (d) {
                     var dlist = d3.entries(d);
                     try {
                         var dataPoint = Math.round((Object.values(dlist[1]["value"]["covidData"]))[diffDays]);
-                    } catch(err) {
+                    } catch (err) {
                         // meh
                     }
                     return colors(dataPoint);
                 });
         }
+
+        // Legend for maps
+
+        var legend = svg.append("defs")
+            .append("svg:linearGradient")
+            .attr("id", "gradient")
+            .attr("x1", "10%")
+            .attr("y1", "100%")
+            .attr("x2", "90%")
+            .attr("y2", "100%")
+            .attr("spreadMethod", "pad");
+
+        legend.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "black")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "16%")
+            .attr("stop-color", "blue")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "33%")
+            .attr("stop-color", "cyan")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "50%")
+            .attr("stop-color", "green")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "66%")
+            .attr("stop-color", "yellow")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "83%")
+            .attr("stop-color", "orange")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "red")
+            .attr("stop-opacity", 1);
+
+        svg.append("rect")
+            .attr("width", "80%")
+            .attr("height", 30)
+            .style("fill", "url(#gradient)")
+            .attr("transform", "translate(90,500)");
+
+        var y = d3.scaleLinear()
+            .range([0, width*0.8])
+            .domain([0, 100]);
+
+        var yAxis = d3.axisBottom()
+            .scale(y)
+            .ticks(5);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(90,530)")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 5)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("axis title");
 
 
     </script>
