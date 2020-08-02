@@ -21,7 +21,8 @@
     <script>
         const startDate = new Date("2020-02-01");
         var currentDate = new Date("2020-02-01");
-        const endDate = new Date("2020-07-19");
+        var endDate = new Date("2020-07-18");
+        endDate.setHours(0,0,0,0);
 
         // functions to pretty print dates
         var getMonth = d3.timeFormat("%B");
@@ -68,7 +69,6 @@
             .attr("x2", "90%")
             .call(d3.drag()
                 .on("drag", function () {
-                    console.log("In drag");
                     new_val = d3.event.x;
                     moveHandle(datesScale.invert(new_val));
                 }));
@@ -184,17 +184,13 @@
                         .duration(200)
                         .style("opacity", 0);
                 });
-            console.log(json);
         });
 
         // update map on slider movement
         function updateMap() {
             // get new date diff between start date and this date
-            console.log('received date ' + currentDate);
-            console.log('startDate: ' + startDate);
             var diffTime = Math.abs(currentDate - startDate);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            console.log('Diff days: ' + diffTime);
 
             // re-draw map components with color
             // corresponding to data for that state
@@ -347,10 +343,20 @@
             .on('click', function() {
                 // Determine whether to pause or play
                 if (playing == false) {
+                    currentDate.setHours(0,0,0,0);
+                    // if the button is already at the end,
+                    // go to the beginning
+                    if (currentDate.getTime() == endDate.getTime()) {
+                        currentDate = new Date('2020-02-01');
+                    }
                     // set intervals
                     playing = true;
                     timer = setInterval(function() {
-                        console.log(currentDate);
+                        if (currentDate.getTime() == endDate.getTime()) {
+                            playing = false;
+                            clearInterval(timer);
+                            d3.select(this).html("Play");
+                        }
                         currentDate.setDate(currentDate.getDate() + 1);
                         moveHandle(currentDate);
                     }, 300);
