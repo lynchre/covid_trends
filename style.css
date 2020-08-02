@@ -1,15 +1,28 @@
 .heading {
     font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif; 
     font-size: 300%;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
     margin-top: 10px;
 }
 
 .info {
     font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif; 
     font-size: 75%;
-    margin-top: -25px;
+    margin-top: -20px;
     margin-left: 20px;
+}
+
+figure {
+    width:100%;
+    margin-bottom: 100px;
+}
+
+#michigan {
+    width: 50%;
+}
+
+#florida {
+    width: 50%;
 }
 
 .subtitle {
@@ -23,6 +36,11 @@
     font-size: 110%;
     width:85%;
     margin: auto;
+}
+
+.graph {
+    width: 45%;
+    height: 100%;
 }
 
 .maps {
