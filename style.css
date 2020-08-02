@@ -51,7 +51,7 @@ figure {
     width: 90%;
     top: 50%;
     margin-left:50px;
-    margin-top: 50px;
+    margin-top: 5px;
 }
 
 div.tooltip {
@@ -114,6 +114,7 @@ div.tooltip {
     background: #3AA8E8;
     border: none;
     color: white;
+    margin-top: 20px;
     padding: 0 12px;
     width:90px;
     height: 30px;

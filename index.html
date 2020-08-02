@@ -112,7 +112,7 @@
 
     <div class="story">
         <p>
-            Here we can interactive with the data on both Google searches and new daily Covid-19 cases. For the sake of consistency and to match the 0-100 formatting of the 
+            Here we can interact with the data on both Google searches and new daily Covid-19 cases. For the sake of consistency and to match the 0-100 formatting of the 
             Google Trends data, the data on each state's new daily cases has been scaled to be the percent of the max cases for the given state. This means 
             each state will show a spike on the left map when it is seeing a surge in the number of Google searches for "Covid Symptoms", and will 
             similarly show a spike on the right map when the state is seeing a surge in daily Covid-19 cases. Both maps operate using the same 0-100 scale, 
@@ -245,7 +245,7 @@
         svg.append('text')
             .attr("transform", "translate(" + 540 + "," + 210 + ")")
             .attr('font-weight', 'bold')
-            .text('Percent of New \nDaily Covid Cases');
+            .text('Percent of Max New \nDaily Covid Cases');
 
         // tooltip for mouseover details
         var hover_g = svg.append('text')
