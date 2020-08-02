@@ -240,7 +240,7 @@
             // update map colors
             g.selectAll(".state_g")
                 .transition()
-                .duration(200)
+                .duration(600)
                 .attr("fill", function (d) {
                     var dlist = d3.entries(d);
                     try {
@@ -252,7 +252,7 @@
                 });
             g.selectAll(".state_c")
                 .transition()
-                .duration(200)
+                .duration(600)
                 .attr("fill", function (d) {
                     var dlist = d3.entries(d);
                     try {
@@ -355,7 +355,8 @@
                         if (currentDate.getTime() == endDate.getTime()) {
                             playing = false;
                             clearInterval(timer);
-                            d3.select(this).html("Play");
+                            d3.select('#play-button').html("Play");
+                            return;
                         }
                         currentDate.setDate(currentDate.getDate() + 1);
                         moveHandle(currentDate);
