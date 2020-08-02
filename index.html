@@ -316,34 +316,46 @@
             var d9 = new Date('2020-04-26');
             var d10 = new Date('2020-05-01');
             var d11 = new Date('2020-05-17');
-            var d12 = new Date('2020-06-17');
-            var d13 = new Date('2020-07-07');
+            var d12 = new Date('2020-06-10');
+            var d13 = new Date('2020-07-01');
             d1.setHours(0,0,0,0);
             if (date.getTime() < d1.getTime()) {
                 return;
             } else {
                 if (date.getTime() >= d1.getTime() && date.getTime() <= d2.getTime()){
+                    float_june_17_end.transition().duration(500).style('opacity', 0);
+                    float_july_7_end.transition().duration(500).style('opacity', 0);
                     float_feb_3_10.transition().duration(500).style('opacity', 1);
                 } else {
                     float_feb_3_10.transition().duration(500).style('opacity', 0);
                     if (date.getTime() >= d3.getTime() && date.getTime() <= d4.getTime()) {
+                        float_june_17_end.transition().duration(500).style('opacity', 0);
+                        float_july_7_end.transition().duration(500).style('opacity', 0);
                         float_mar_4_8.transition().duration(500).style('opacity', 1);
                         float_mar_4_8_p2.transition().duration(500).style('opacity', 1);
                         if (date.getTime() >= d5.getTime() && date.getTime() <= d6.getTime()) {
+                            float_june_17_end.transition().duration(500).style('opacity', 0);
+                            float_july_7_end.transition().duration(500).style('opacity', 0);
                             float_mar_13_24.transition().duration(500).style('opacity', 1);
                         }
                     } else {
                         float_mar_4_8.transition().duration(500).style('opacity', 0);
                         float_mar_4_8_p2.transition().duration(500).style('opacity', 0);
                         if (date.getTime() >= d5.getTime() && date.getTime() <= d6.getTime()) {
+                            float_june_17_end.transition().duration(500).style('opacity', 0);
+                            float_july_7_end.transition().duration(500).style('opacity', 0);
                             float_mar_13_24.transition().duration(500).style('opacity', 1);
                         } else {
                             float_mar_13_24.transition().duration(500).style('opacity', 0);
                             if (date.getTime() >= d7.getTime() && date.getTime() <= d8.getTime()) {
+                                float_june_17_end.transition().duration(500).style('opacity', 0);
+                                float_july_7_end.transition().duration(500).style('opacity', 0);
                                 float_mar_27_12.transition().duration(500).style('opacity', 1);
                             } else {
                                 float_mar_27_12.transition().duration(500).style('opacity', 0);
                                 if (date.getTime() >= d9.getTime() && date.getTime() <= d11.getTime()) {
+                                    float_june_17_end.transition().duration(500).style('opacity', 0);
+                                    float_july_7_end.transition().duration(500).style('opacity', 0);
                                     float_apr_26_17.transition().duration(500).style('opacity', 1);
                                     if (date.getTime() >= d10.getTime()) {
                                         float_may_01_17.transition().duration(500).style('opacity', 1);
@@ -353,9 +365,13 @@
                                     float_may_01_17.transition().duration(500).style('opacity', 0);
                                     if (date.getTime() >= d12.getTime()) {
                                         float_june_17_end.transition().duration(500).style('opacity', 1);
+                                        if (date.getTime() >= d13.getTime()) {
+                                            float_july_7_end.transition().duration(500).style('opacity', 1);
+                                        } 
                                     }
-                                    if (date.getTime() >= d13.getTime()) {
-                                        float_july_7_end.transition().duration(500).style('opacity', 1);
+                                    else {
+                                        float_june_17_end.transition().duration(500).style('opacity', 0);
+                                        float_july_7_end.transition().duration(500).style('opacity', 0);
                                     }
                                 }
                             }
