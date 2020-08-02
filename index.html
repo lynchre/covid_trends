@@ -19,15 +19,9 @@
         <div id="slider"></div>
     </div>
     <script>
-        var currentDate = 0;
         const startDate = new Date("2020-02-01");
-        var endDate = new Date("2020-07-19");
-
-        // function to get Date from start date 
-        Date.prototype.addDays = function (days) {
-            date.setDate(startDate + days);
-            return date;
-        }
+        var currentDate = new Date("2020-02-01");
+        const endDate = new Date("2020-07-19");
 
         // functions to pretty print dates
         var getMonth = d3.timeFormat("%B");
@@ -103,11 +97,11 @@
             .attr('transform', 'translate(80,' + (-25) + ')')
 
         function moveHandle(date) {
-            console.log(date);
+            currentDate = date;
             handle.attr("cx", datesScale(date) - 80);
             dateLabel.attr('x', datesScale(date) - 80);
             dateLabel.text(getMonthAndYear(date));
-            updateMap(date);
+            updateMap();
         }
 
 
@@ -194,11 +188,13 @@
         });
 
         // update map on slider movement
-        function updateMap(date) {
+        function updateMap() {
             // get new date diff between start date and this date
-            var diffTime = Math.abs(date - startDate);
+            console.log('received date ' + currentDate);
+            console.log('startDate: ' + startDate);
+            var diffTime = Math.abs(currentDate - startDate);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            console.log('Diff days: ' + diffDays);
+            console.log('Diff days: ' + diffTime);
 
             // re-draw map components with color
             // corresponding to data for that state
@@ -343,6 +339,28 @@
             .style("text-anchor", "end")
             .text("axis title");
 
+        
+        // Animating the map on button press
+        var timer;
+        var playing = false;
+        d3.select('#play-button')
+            .on('click', function() {
+                // Determine whether to pause or play
+                if (playing == false) {
+                    // set intervals
+                    playing = true;
+                    timer = setInterval(function() {
+                        console.log(currentDate);
+                        currentDate.setDate(currentDate.getDate() + 1);
+                        moveHandle(currentDate);
+                    }, 300);
+                    d3.select(this).html("Pause");
+                } else {
+                    playing = false;
+                    clearInterval(timer);
+                    d3.select(this).html("Play");
+                }
+            });
 
     </script>
 
