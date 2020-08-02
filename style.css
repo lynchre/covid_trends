@@ -12,6 +12,8 @@
     margin-left: 20px;
 }
 
+
+
 figure {
     width:100%;
     margin-bottom: 100px;
@@ -40,7 +42,6 @@ figure {
 
 .graph {
     width: 45%;
-    height: 100%;
 }
 
 .maps {
@@ -53,12 +54,8 @@ figure {
     margin-top: 50px;
 }
 
-.slider {
-    width: 80%;
-}
-
 div.tooltip {
-    position: absolute;			
+    position: absolute;
     text-align: center;			
     width: 70px;					
     height: 50px;					
@@ -69,6 +66,11 @@ div.tooltip {
     border-radius: 8px;			
     pointer-events: none;
 }
+
+.slider {
+    width: 80%;
+}
+
 .track { 
     stroke: #000;
     stroke-linecap: round;
@@ -99,10 +101,6 @@ div.tooltip {
     stroke: #000;
     stroke-opacity: 0.5;
     stroke-width: 1.25px;
-    cursor: pointer;
-    z-index: 9999;
-    position: absolute;
-    right:0;
   }
 
 .handle:hover {

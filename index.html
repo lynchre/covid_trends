@@ -106,6 +106,20 @@
         </p>
     </div>
 
+    <div class="subtitle">
+        This Tool
+    </div>
+
+    <div class="story">
+        <p>
+            Here we can interactive with the data on both Google searches and new daily Covid-19 cases. For the sake of consistency and to match the 0-100 formatting of the 
+            Google Trends data, the data on each state's new daily cases has been scaled to be the percent of the max cases for the given state. This means 
+            each state will show a spike on the left map when it is seeing a surge in the number of Google searches for "Covid Symptoms", and will 
+            similarly show a spike on the right map when the state is seeing a surge in daily Covid-19 cases. Both maps operate using the same 0-100 scale, 
+            representing the percent of the max value (Google searches or Covid-19 cases) for each state in the given map.
+        </p>
+    </div>
+
     <div id='container' class='maps'>
 
         <button id="play-button">Play</button>
@@ -227,8 +241,13 @@
             .text('Percent of New \nDaily Covid Cases');
 
         // tooltip for mouseover details
-        var hover = d3.select('.maps').append('div')
+        var hover_g = svg.append('text')
             .attr('class', 'tooltip')
+            .attr('transform', 'translate(170,480)')
+            .style('opacity', 0);
+        var hover_c = svg.append('text')
+            .attr('class', 'tooltip')
+            .attr('transform', 'translate(620,480)')
             .style('opacity', 0);
         // // initialize d3 components
         var colors = d3.scaleLinear()
@@ -247,15 +266,20 @@
                 .attr("stroke", "#333")
                 .attr("d", path_g)
                 .on("mouseover", function (d) {
-                    hover.transition()
+                    hover_g.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    hover.html(d.properties.NAME + "<br/>" + 0)
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 40) + "px");
+                    hover_g.html(d.properties.NAME + ": " + 0 + "%");
+                    hover_c.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    hover_c.html(d.properties.NAME + ": " + 0 + "%");
                 })
                 .on("mouseout", function () {
-                    hover.transition()
+                    hover_g.transition()
+                        .duration(200)
+                        .style("opacity", 0);
+                    hover_c.transition()
                         .duration(200)
                         .style("opacity", 0);
                 });
@@ -269,15 +293,20 @@
                 .attr("stroke", "#333")
                 .attr("d", path_c)
                 .on("mouseover", function (d) {
-                    hover.transition()
+                    hover_g.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    hover.html(d.properties.NAME + "<br/>" + 0)
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 40) + "px");
+                    hover_g.html(d.properties.NAME + ": " + 0 + "%");
+                    hover_c.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    hover_c.html(d.properties.NAME + ": " + 0 + "%");
                 })
                 .on("mouseout", function () {
-                    hover.transition()
+                    hover_g.transition()
+                        .duration(200)
+                        .style("opacity", 0);
+                    hover_c.transition()
                         .duration(200)
                         .style("opacity", 0);
                 });
@@ -297,19 +326,25 @@
                 .on("mouseover", function (d) {
                     var dlist = d3.entries(d);
                     try {
-                        var dataPoint = Math.round((Object.values(dlist[1]["value"]["googleData"]))[diffDays]);
+                        var googleDataPoint = Math.round((Object.values(dlist[1]["value"]["googleData"]))[diffDays]);
+                        var covidDataPoint = Math.round((Object.values(dlist[1]["value"]["covidData"]))[diffDays]);
                     } catch (err) {
                         // meh
                     }
-                    hover.transition()
+                    hover_g.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    hover.html(d.properties.NAME + "<br/>" + dataPoint)
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 40) + "px");
+                    hover_g.html(d.properties.NAME + ": " + googleDataPoint + "%");
+                    hover_c.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    hover_c.html(d.properties.NAME + ": " + covidDataPoint + "%");
                 })
                 .on("mouseout", function () {
-                    hover.transition()
+                    hover_g.transition()
+                        .duration(200)
+                        .style("opacity", 0);
+                    hover_c.transition()
                         .duration(200)
                         .style("opacity", 0);
                 });
@@ -317,19 +352,25 @@
                 .on("mouseover", function (d) {
                     var dlist = d3.entries(d);
                     try {
-                        var dataPoint = Math.round((Object.values(dlist[1]["value"]["covidData"]))[diffDays]);
+                        var googleDataPoint = Math.round((Object.values(dlist[1]["value"]["googleData"]))[diffDays]);
+                        var covidDataPoint = Math.round((Object.values(dlist[1]["value"]["covidData"]))[diffDays]);
                     } catch (err) {
                         // meh
                     }
-                    hover.transition()
+                    hover_g.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    hover.html(d.properties.NAME + "<br/>" + dataPoint)
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 40) + "px");
+                    hover_g.html(d.properties.NAME + ": " + googleDataPoint + "%");
+                    hover_c.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    hover_c.html(d.properties.NAME + ": " + covidDataPoint + "%");
                 })
                 .on("mouseout", function () {
-                    hover.transition()
+                    hover_g.transition()
+                        .duration(200)
+                        .style("opacity", 0);
+                    hover_c.transition()
                         .duration(200)
                         .style("opacity", 0);
                 });
@@ -457,7 +498,7 @@
                         }
                         currentDate.setDate(currentDate.getDate() + 1);
                         moveHandle(currentDate);
-                    }, 300);
+                    }, 220);
                     d3.select(this).html("Pause");
                 } else {
                     playing = false;
