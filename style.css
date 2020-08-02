@@ -1,6 +1,21 @@
 .heading {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 100;
+    font-family: Georgia, serif;
+    font-size: 200%;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+.subtitle {
+    font-family: Georgia, serif;
+    font-size: 150%;
+    margin-left: 40px;
+}
+
+.story {
+    font-family: Georgia, serif;
+    font-size: 90%;
+    width:85%;
+    margin: auto;
 }
 
 .maps {

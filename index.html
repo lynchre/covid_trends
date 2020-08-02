@@ -8,8 +8,17 @@
 <body>
 
     <div class="heading">
-        <h>Covid-19 and Google Searches</h>
-        <p>Tracking spikes in Google searches for <b>"covid symptoms"</b> and spikes in Covid-19 cases by state.</p>
+        <h>Googling the Pandemic</h>
+    </div>
+
+    <div class="subtitle">
+        Test
+    </div>
+
+    <div class="story">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
     </div>
 
     <div id='container' class='maps'>
@@ -343,7 +352,6 @@
             .on('click', function() {
                 // Determine whether to pause or play
                 if (playing == false) {
-                    currentDate.setHours(0,0,0,0);
                     // if the button is already at the end,
                     // go to the beginning
                     if (currentDate.getTime() == endDate.getTime()) {
@@ -352,6 +360,7 @@
                     // set intervals
                     playing = true;
                     timer = setInterval(function() {
+                        currentDate.setHours(0,0,0,0);
                         if (currentDate.getTime() == endDate.getTime()) {
                             playing = false;
                             clearInterval(timer);
