@@ -254,6 +254,52 @@
             .domain([0, 50 / 3, 100 / 3, 150 / 3, 200 / 3, 250 / 3, 100])
             .range(['black', 'blue', 'cyan', 'green', 'yellow', 'orange', 'red']);
 
+        // floating text for map moments
+        var float_feb_3_10 = svg.append('text')
+            .attr('transform', 'translate(270,170)')
+            .text('Feb 3: WHO Issues Global Health Emergency')
+            .style('opacity', 0);
+
+        var float_mar_4_8 = svg.append('text')
+            .attr('transform', 'translate(270,155)')
+            .text('March 4: Passengers on Grand Princess cruise test positive,')
+            .style('opacity', 0);
+
+        var float_mar_4_8_p2 = svg.append('text')
+            .attr('transform', 'translate(270,175)')
+            .text('sparking initial Google searches on west coast.')
+            .style('opacity', 0);
+
+        var float_mar_13_24 = svg.append('text')
+            .attr('transform', 'translate(270,170)')
+            .text('March 13: Covid-19 declared a National Emergency')
+            .style('opacity', 0);
+
+        var float_mar_27_12 = svg.append('text')
+            .attr('transform', 'translate(320,170)')
+            .text('Cases in Northeast begin to surge')
+            .style('opacity', 0);
+
+        var float_apr_26_17 = svg.append('text')
+            .attr('transform', 'translate(270,155)')
+            .text('An increase in searches in Illinois...')
+            .style('opacity', 0);
+
+        var float_may_01_17 = svg.append('text')
+            .attr('transform', 'translate(290,175)')
+            .text('precedes a spike in Illinois cases.')
+            .style('opacity', 0);
+
+        var float_june_17_end = svg.append('text')
+            .attr('transform', 'translate(200,155)')
+            .text('Symptom searches begin to increase in Arizona, Texas, and Florida...')
+            // .style('opacity', 0);
+
+        var float_may_01_17 = svg.append('text')
+            .attr('transform', 'translate(370,175)')
+            .text('followed by massive spikes in cases.')
+            // .style('opacity', 0);
+
         // us geo json source: https://eric.clst.org/tech/usgeojson/
         d3.json('data/data.json', function (json) {
             g.selectAll("path_g")
