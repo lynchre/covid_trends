@@ -1,19 +1,19 @@
 .heading {
-    font-family: Georgia, serif;
-    font-size: 200%;
+    font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif; 
+    font-size: 300%;
     margin-bottom: 25px;
     margin-top: 10px;
 }
 
 .subtitle {
-    font-family: Georgia, serif;
-    font-size: 150%;
+    font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif; 
+    font-size: 200%;
     margin-left: 40px;
 }
 
 .story {
-    font-family: Georgia, serif;
-    font-size: 90%;
+    font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif; 
+    font-size: 110%;
     width:85%;
     margin: auto;
 }
