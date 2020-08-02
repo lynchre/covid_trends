@@ -23,7 +23,9 @@
     display: inline-block;
     position: relative;
     width: 90%;
-    vertical-align: top;
+    top: 50%;
+    margin-left:50px;
+    margin-top: 50px;
 }
 
 .slider {
@@ -47,7 +49,7 @@ div.tooltip {
     stroke-linecap: round;
     stroke-opacity: 0.3;
     stroke-width: 10px;
-    position: relative;
+    position: absolute;
 }
 
 .track_inner {
@@ -72,7 +74,15 @@ div.tooltip {
     stroke: #000;
     stroke-opacity: 0.5;
     stroke-width: 1.25px;
+    cursor: pointer;
+    z-index: 9999;
+    position: absolute;
+    right:0;
   }
+
+.handle:hover {
+    fill: #9A9A9D;
+}
 
 #play-button {
     font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif; 
