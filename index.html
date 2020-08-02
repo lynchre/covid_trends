@@ -232,12 +232,15 @@
         var g = svg.append("g");
         svg.append('text')
             .attr("transform", "translate(" + 90 + "," + 205 + ")")
+            .attr('font-weight', 'bold')
             .text('Percent of Max Daily Google Searches');
         svg.append('text')
             .attr("transform", "translate(" + 135 + "," + 225 + ")")
+            .attr('font-weight', 'bold')
             .text('for "Covid Symptoms"');
         svg.append('text')
             .attr("transform", "translate(" + 540 + "," + 210 + ")")
+            .attr('font-weight', 'bold')
             .text('Percent of New \nDaily Covid Cases');
 
         // tooltip for mouseover details
@@ -261,17 +264,17 @@
             .style('opacity', 0);
 
         var float_mar_4_8 = svg.append('text')
-            .attr('transform', 'translate(270,155)')
+            .attr('transform', 'translate(50,155)')
             .text('March 4: Passengers on Grand Princess cruise test positive,')
             .style('opacity', 0);
 
         var float_mar_4_8_p2 = svg.append('text')
-            .attr('transform', 'translate(270,175)')
+            .attr('transform', 'translate(50,175)')
             .text('sparking initial Google searches on west coast.')
             .style('opacity', 0);
 
         var float_mar_13_24 = svg.append('text')
-            .attr('transform', 'translate(270,170)')
+            .attr('transform', 'translate(520,170)')
             .text('March 13: Covid-19 declared a National Emergency')
             .style('opacity', 0);
 
@@ -293,12 +296,74 @@
         var float_june_17_end = svg.append('text')
             .attr('transform', 'translate(200,155)')
             .text('Symptom searches begin to increase in Arizona, Texas, and Florida...')
-            // .style('opacity', 0);
+            .style('opacity', 0);
 
-        var float_may_01_17 = svg.append('text')
+        var float_july_7_end = svg.append('text')
             .attr('transform', 'translate(370,175)')
             .text('followed by massive spikes in cases.')
-            // .style('opacity', 0);
+            .style('opacity', 0);
+
+        function updateBlobs(date, playing) {
+            date.setHours(0,0,0,0);
+            var d1 = new Date('2020-02-03');
+            var d2 = new Date('2020-02-15');
+            var d3 = new Date('2020-03-04');
+            var d4 = new Date('2020-03-19');
+            var d5 = new Date('2020-03-13');
+            var d6 = new Date('2020-03-24');
+            var d7 = new Date('2020-03-27');
+            var d8 = new Date('2020-04-12');
+            var d9 = new Date('2020-04-26');
+            var d10 = new Date('2020-05-01');
+            var d11 = new Date('2020-05-17');
+            var d12 = new Date('2020-06-17');
+            var d13 = new Date('2020-07-07');
+            d1.setHours(0,0,0,0);
+            if (date.getTime() < d1.getTime()) {
+                return;
+            } else {
+                if (date.getTime() >= d1.getTime() && date.getTime() <= d2.getTime()){
+                    float_feb_3_10.transition().duration(500).style('opacity', 1);
+                } else {
+                    float_feb_3_10.transition().duration(500).style('opacity', 0);
+                    if (date.getTime() >= d3.getTime() && date.getTime() <= d4.getTime()) {
+                        float_mar_4_8.transition().duration(500).style('opacity', 1);
+                        float_mar_4_8_p2.transition().duration(500).style('opacity', 1);
+                        if (date.getTime() >= d5.getTime() && date.getTime() <= d6.getTime()) {
+                            float_mar_13_24.transition().duration(500).style('opacity', 1);
+                        }
+                    } else {
+                        float_mar_4_8.transition().duration(500).style('opacity', 0);
+                        float_mar_4_8_p2.transition().duration(500).style('opacity', 0);
+                        if (date.getTime() >= d5.getTime() && date.getTime() <= d6.getTime()) {
+                            float_mar_13_24.transition().duration(500).style('opacity', 1);
+                        } else {
+                            float_mar_13_24.transition().duration(500).style('opacity', 0);
+                            if (date.getTime() >= d7.getTime() && date.getTime() <= d8.getTime()) {
+                                float_mar_27_12.transition().duration(500).style('opacity', 1);
+                            } else {
+                                float_mar_27_12.transition().duration(500).style('opacity', 0);
+                                if (date.getTime() >= d9.getTime() && date.getTime() <= d11.getTime()) {
+                                    float_apr_26_17.transition().duration(500).style('opacity', 1);
+                                    if (date.getTime() >= d10.getTime()) {
+                                        float_may_01_17.transition().duration(500).style('opacity', 1);
+                                    }
+                                } else {
+                                    float_apr_26_17.transition().duration(500).style('opacity', 0);
+                                    float_may_01_17.transition().duration(500).style('opacity', 0);
+                                    if (date.getTime() >= d12.getTime()) {
+                                        float_june_17_end.transition().duration(500).style('opacity', 1);
+                                    }
+                                    if (date.getTime() >= d13.getTime()) {
+                                        float_july_7_end.transition().duration(500).style('opacity', 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         // us geo json source: https://eric.clst.org/tech/usgeojson/
         d3.json('data/data.json', function (json) {
@@ -519,7 +584,6 @@
             .style("text-anchor", "end")
             .text("axis title");
 
-        
         // Animating the map on button press
         var timer;
         var playing = false;
@@ -530,6 +594,9 @@
                     // if the button is already at the end,
                     // go to the beginning
                     if (currentDate.getTime() == endDate.getTime()) {
+                        // reset blobs
+                        float_june_17_end.transition().duration(500).style('opacity', 0);
+                        float_july_7_end.transition().duration(500).style('opacity', 0);
                         currentDate = new Date('2020-02-01');
                     }
                     // set intervals
@@ -542,9 +609,10 @@
                             d3.select('#play-button').html("Play");
                             return;
                         }
+                        updateBlobs(currentDate);
                         currentDate.setDate(currentDate.getDate() + 1);
                         moveHandle(currentDate);
-                    }, 220);
+                    }, 600);
                     d3.select(this).html("Pause");
                 } else {
                     playing = false;
