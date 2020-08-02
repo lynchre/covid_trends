@@ -92,10 +92,17 @@
 
     <div class="story">
         <p>
-            We can use Google Trends to see asdkfjasdl asdkjfhsd blah blah blah
+            Google Trends allows us to understand where and how people were searching Google for a certain term over a certain time window. 
+            Within that window, it will pinpoint the date with the maximum number of searches for the term, and then return data in terms of 
+            the percent of that max. If, for example, a term was searched in Michigan 500 times one day, 1000 times the next day, and 2000 times the following day, 
+            the data returned would be 25%, 50%, and 100% respectively. If another state had searches for the same term across the same three days numbering 20, 40, and 80 searches, 
+            Google Trends would also return 25%, 50%, and 100% for that state. This prevents anyone from extracting raw numbers of searches, which could potentially 
+            be used in bad faith by malicious actors or advertisers.
         </p>
         <p>
-            This allows us to track spikes in blah blah blah
+            This unique API and its functionality allows us to understand where and when interest in a given term is spiking. In this case, we can examine geographical surges in interest in terms 
+            like <b><i>"Covid Symptoms"</i></b>, and compare those surges with the surges in the number of new daily Covid-19 symptoms in each state. 
+            It's possible that examining the relationship between these Google searches and the spikes in cases, we can understand potential patterns in the spread of pandemics. 
         </p>
     </div>
 
@@ -210,11 +217,14 @@
             .projection(projection_covid);
         var g = svg.append("g");
         svg.append('text')
-            .attr("transform", "translate(" + 165 + "," + 210 + ")")
-            .text('Google Trends');
+            .attr("transform", "translate(" + 90 + "," + 205 + ")")
+            .text('Percent of Max Daily Google Searches');
         svg.append('text')
-            .attr("transform", "translate(" + 590 + "," + 210 + ")")
-            .text('New Daily Covid Cases');
+            .attr("transform", "translate(" + 135 + "," + 225 + ")")
+            .text('for "Covid Symptoms"');
+        svg.append('text')
+            .attr("transform", "translate(" + 540 + "," + 210 + ")")
+            .text('Percent of New \nDaily Covid Cases');
 
         // tooltip for mouseover details
         var hover = d3.select('.maps').append('div')
